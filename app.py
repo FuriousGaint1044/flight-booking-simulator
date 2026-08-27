@@ -115,7 +115,7 @@ if st.session_state.get("search_done", False):
 
     st.write("### Flight 3")
     st.write(f"🛫 {source} → {destination}")
-    st.write("✈️ Air India")
+    st.write("✈️ IndiGo")
     st.write("🕐 07:00 PM - 10:00 PM")
     st.write("💺 Economy")
     st.write("💰 ₹4,800 per passenger")
@@ -123,7 +123,7 @@ if st.session_state.get("search_done", False):
     if st.button("Book Flight 3"):
 
         st.session_state.selected_flight = {
-            "airline": "Air India",
+            "airline": "IndiGo",
             "time": "07:00 PM - 10:00 PM",
             "price": 4800,
             "source": source,
