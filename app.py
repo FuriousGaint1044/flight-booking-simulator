@@ -93,7 +93,7 @@ if st.session_state.get("search_done", False):
     st.write(f"🛫 {source} → {destination}")
     st.write("✈️ Emirates")
     st.write("🕐 01:30 PM - 04:30 PM")
-    st.write("💺 Economy")
+    st.write("💺 Business class")
     st.write("💰 ₹5,200 per passenger")
 
     if st.button("Book Flight 2"):
