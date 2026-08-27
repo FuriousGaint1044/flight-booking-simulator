@@ -67,7 +67,7 @@ if st.session_state.get("search_done", False):
 
     st.write("### Flight 1")
     st.write(f"🛫 {source} → {destination}")
-    st.write("✈️ SkyBook Airways")
+    st.write("✈️ Air India")
     st.write("🕐 08:00 AM - 11:00 AM")
     st.write("💺 Economy")
     st.write("💰 ₹4,500 per passenger")
@@ -75,7 +75,7 @@ if st.session_state.get("search_done", False):
     if st.button("Book Flight 1"):
 
         st.session_state.selected_flight = {
-            "airline": "SkyBook Airways",
+            "airline": "Air India",
             "time": "08:00 AM - 11:00 AM",
             "price": 4500,
             "source": source,
@@ -91,7 +91,7 @@ if st.session_state.get("search_done", False):
 
     st.write("### Flight 2")
     st.write(f"🛫 {source} → {destination}")
-    st.write("✈️ SkyBook Express")
+    st.write("✈️ Emirates")
     st.write("🕐 01:30 PM - 04:30 PM")
     st.write("💺 Economy")
     st.write("💰 ₹5,200 per passenger")
@@ -99,7 +99,7 @@ if st.session_state.get("search_done", False):
     if st.button("Book Flight 2"):
 
         st.session_state.selected_flight = {
-            "airline": "SkyBook Express",
+            "airline": "Emirates",
             "time": "01:30 PM - 04:30 PM",
             "price": 5200,
             "source": source,
@@ -115,7 +115,7 @@ if st.session_state.get("search_done", False):
 
     st.write("### Flight 3")
     st.write(f"🛫 {source} → {destination}")
-    st.write("✈️ SkyBook Airlines")
+    st.write("✈️ Air India")
     st.write("🕐 07:00 PM - 10:00 PM")
     st.write("💺 Economy")
     st.write("💰 ₹4,800 per passenger")
@@ -123,7 +123,7 @@ if st.session_state.get("search_done", False):
     if st.button("Book Flight 3"):
 
         st.session_state.selected_flight = {
-            "airline": "SkyBook Airlines",
+            "airline": "Air India",
             "time": "07:00 PM - 10:00 PM",
             "price": 4800,
             "source": source,
