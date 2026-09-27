@@ -1,9 +1,6 @@
+```python
 import streamlit as st
 import random
-import io
-
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
 
 
 # --------------------------------------------------
@@ -33,9 +30,6 @@ if "search_done" not in st.session_state:
 if "passenger_details" not in st.session_state:
     st.session_state.passenger_details = []
 
-if "payment_done" not in st.session_state:
-    st.session_state.payment_done = False
-
 if "current_booking" not in st.session_state:
     st.session_state.current_booking = None
 
@@ -61,24 +55,18 @@ st.header("🔍 Search Flights")
 col1, col2 = st.columns(2)
 
 with col1:
-
     source = st.text_input(
         "From",
         placeholder="e.g. Kochi"
     )
 
 with col2:
-
     destination = st.text_input(
         "To",
         placeholder="e.g. Delhi"
     )
 
-
-travel_date = st.date_input(
-    "Travel Date"
-)
-
+travel_date = st.date_input("Travel Date")
 
 passengers = st.number_input(
     "Number of Passengers",
@@ -87,8 +75,6 @@ passengers = st.number_input(
     value=1
 )
 
-
-# SEARCH BUTTON
 
 if st.button("🔍 Search Flights"):
 
@@ -173,8 +159,6 @@ if st.session_state.get(
 
         st.session_state.passenger_details = []
 
-        st.session_state.payment_done = False
-
         st.rerun()
 
 
@@ -199,4 +183,143 @@ if st.session_state.get(
 
     st.write("💺 Business class")
 
-    st.wri
+    st.write(
+        "💰 ₹5,200 per passenger"
+    )
+
+
+    if st.button("Book Flight 2"):
+
+        st.session_state.selected_flight = {
+
+            "airline": "Emirates",
+
+            "flight_number": "EK202",
+
+            "time": "01:30 PM - 04:30 PM",
+
+            "price": 5200,
+
+            "class": "Business Class",
+
+            "source": source,
+
+            "destination": destination,
+
+            "date": str(travel_date),
+
+            "passengers": int(passengers)
+        }
+
+        st.session_state.passenger_details = []
+
+        st.rerun()
+
+
+    st.divider()
+
+
+    # ------------------------------------------------
+    # FLIGHT 3
+    # ------------------------------------------------
+
+    st.write("### Flight 3")
+
+    st.write(
+        f"🛫 {source} → {destination}"
+    )
+
+    st.write("✈️ IndiGo")
+
+    st.write(
+        "🕐 07:00 PM - 10:00 PM"
+    )
+
+    st.write("💺 Economy")
+
+    st.write(
+        "💰 ₹4,800 per passenger"
+    )
+
+
+    if st.button("Book Flight 3"):
+
+        st.session_state.selected_flight = {
+
+            "airline": "IndiGo",
+
+            "flight_number": "6E303",
+
+            "time": "07:00 PM - 10:00 PM",
+
+            "price": 4800,
+
+            "class": "Economy",
+
+            "source": source,
+
+            "destination": destination,
+
+            "date": str(travel_date),
+
+            "passengers": int(passengers)
+        }
+
+        st.session_state.passenger_details = []
+
+        st.rerun()
+
+
+# ==================================================
+# PASSENGER DETAILS
+# ==================================================
+
+if st.session_state.selected_flight:
+
+    flight = st.session_state.selected_flight
+
+    st.divider()
+
+    st.header("👤 Passenger Details")
+
+    st.success(
+        f"Selected: {flight['airline']} | "
+        f"{flight['source']} → "
+        f"{flight['destination']}"
+    )
+
+    st.write(
+        f"📅 Date: {flight['date']}"
+    )
+
+    st.write(
+        f"🕐 Time: {flight['time']}"
+    )
+
+    st.write(
+        f"💺 Class: {flight['class']}"
+    )
+
+    st.write(
+        f"👥 Number of Passengers: "
+        f"{flight['passengers']}"
+    )
+
+
+    # ------------------------------------------------
+    # MULTIPLE PASSENGERS
+    # ------------------------------------------------
+
+    passenger_data = []
+
+
+    for i in range(
+        flight["passengers"]
+    ):
+
+        st.write(
+            f"### 👤 Passenger {i + 1}"
+        )
+
+        n
+```
