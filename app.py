@@ -125,7 +125,7 @@ if st.session_state.search_done:
     st.write("✈️ Air India")
     st.write("🕐 08:00 AM - 11:00 AM")
     st.write("💺 Economy")
-    st.write("💰 ₹4,500 per passenger")
+    st.write("💰 ₹6,500 per passenger")
 
 
     if st.button("Book Flight 1"):
@@ -172,7 +172,7 @@ if st.session_state.search_done:
     st.write("✈️ Emirates")
     st.write("🕐 01:30 PM - 04:30 PM")
     st.write("💺 Business Class")
-    st.write("💰 ₹5,200 per passenger")
+    st.write("💰 ₹15,200 per passenger")
 
 
     if st.button("Book Flight 2"):
@@ -219,7 +219,7 @@ if st.session_state.search_done:
     st.write("✈️ IndiGo")
     st.write("🕐 07:00 PM - 10:00 PM")
     st.write("💺 Economy")
-    st.write("💰 ₹4,800 per passenger")
+    st.write("💰 ₹9,800 per passenger")
 
 
     if st.button("Book Flight 3"):
