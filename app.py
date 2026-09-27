@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import random
 import io
@@ -201,4 +200,3 @@ if st.session_state.get(
     st.write("💺 Business class")
 
     st.wri
-```
