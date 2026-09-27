@@ -320,6 +320,3 @@ if st.session_state.selected_flight:
         st.write(
             f"### 👤 Passenger {i + 1}"
         )
-
-        n
-
