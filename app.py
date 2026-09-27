@@ -1,4 +1,4 @@
-```python
+
 import streamlit as st
 import random
 
@@ -322,4 +322,4 @@ if st.session_state.selected_flight:
         )
 
         n
-```
+
