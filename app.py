@@ -130,7 +130,7 @@ if st.session_state.get(
     st.write("💺 Economy")
 
     st.write(
-        "💰 ₹4,500 per passenger"
+        "💰 ₹6,000 per passenger"
     )
 
 
@@ -184,7 +184,7 @@ if st.session_state.get(
     st.write("💺 Business class")
 
     st.write(
-        "💰 ₹5,200 per passenger"
+        "💰 ₹15,200 per passenger"
     )
 
 
@@ -238,7 +238,7 @@ if st.session_state.get(
     st.write("💺 Economy")
 
     st.write(
-        "💰 ₹4,800 per passenger"
+        "💰 ₹9,000 per passenger"
     )
 
 
