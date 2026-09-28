@@ -86,128 +86,66 @@ if st.session_state.search_done:
     st.write("🕐 01:30 PM - 04:30 PM")
     st.write("💺 Business Class")
     st.write("💰 ₹15,200 per passenger")
-
-
     if st.button("Book Flight 2"):
-
         st.session_state.selected_flight = {
-
             "airline": "Emirates",
-
             "flight_number": "EK202",
-
             "time": "01:30 PM - 04:30 PM",
-
             "class": "Business Class",
-
             "price": 5200,
-
             "source": source,
-
             "destination": destination,
-
             "date": str(travel_date),
-
             "passengers": int(passengers)
         }
-
         st.session_state.passenger_details = None
-
         st.rerun()
-
-
     st.divider()
-
-
-    # =====================================================
-    # FLIGHT 3
-    # =====================================================
-
     st.write("### Flight 3")
-
     st.write(
         f"🛫 {source} → {destination}"
     )
-
     st.write("✈️ IndiGo")
     st.write("🕐 07:00 PM - 10:00 PM")
     st.write("💺 Economy")
     st.write("💰 ₹9,800 per passenger")
-
-
     if st.button("Book Flight 3"):
-
         st.session_state.selected_flight = {
-
             "airline": "IndiGo",
-
             "flight_number": "6E303",
-
             "time": "07:00 PM - 10:00 PM",
-
             "class": "Economy",
-
             "price": 4800,
-
             "source": source,
-
             "destination": destination,
-
             "date": str(travel_date),
-
             "passengers": int(passengers)
         }
-
         st.session_state.passenger_details = None
-
         st.rerun()
-
-
-# =========================================================
-# PASSENGER DETAILS
-# =========================================================
-
 if st.session_state.selected_flight:
-
     flight = st.session_state.selected_flight
-
     st.divider()
-
     st.header("👤 Passenger Details")
-
-
     st.success(
         f"Selected: {flight['airline']} | "
         f"{flight['source']} → "
         f"{flight['destination']}"
     )
-
-
     st.write(
         f"📅 Date: {flight['date']}"
     )
-
     st.write(
         f"🕐 Time: {flight['time']}"
     )
-
     st.write(
         f"💺 Class: {flight['class']}"
     )
-
     st.write(
         f"👥 Number of Passengers: "
         f"{flight['passengers']}"
     )
-
-
-    # =====================================================
-    # PASSENGER FORMS
-    # =====================================================
-
     passenger_data = []
-
-
     for i in range(flight["passengers"]):
 
         st.subheader(
