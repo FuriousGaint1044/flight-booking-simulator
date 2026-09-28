@@ -780,15 +780,15 @@ elif st.session_state.page == "Bookings":
         st.info(
             "You don't have any bookings yet."
         )
-
-
     if st.button(
         "🔎 Search Flights",
         use_container_width=True,
         key="bookings_search_flights_button"
     ):
-    st.session_state.page = "Search"
-    st.rerun()
+        st.session_state.page = "Search"
+        st.rerun()
+
+
             st.session_state.page = "Search"
 
             st.rerun()
