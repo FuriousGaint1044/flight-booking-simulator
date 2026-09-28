@@ -147,75 +147,37 @@ if st.session_state.selected_flight:
     )
     passenger_data = []
     for i in range(flight["passengers"]):
-
         st.subheader(
             f"👤 Passenger {i + 1}"
         )
-
-
-        # NAME
-
         name = st.text_input(
             f"Full Name - Passenger {i + 1}",
             key=f"name_{i}"
         )
-
-
-        # ADULT / CHILD
-
         passenger_type = st.radio(
-
             f"Passenger Type - Passenger {i + 1}",
-
             [
                 "Adult",
                 "Child"
             ],
-
             horizontal=True,
-
             key=f"type_{i}"
         )
-
-
-        # AGE
-
         age = st.number_input(
-
             f"Age - Passenger {i + 1}",
-
             min_value=1,
-
             max_value=100,
-
             value=18,
-
             key=f"age_{i}"
         )
-
-
-        # PHONE
-
         phone = st.text_input(
-
             f"Phone Number - Passenger {i + 1}",
-
             key=f"phone_{i}"
         )
-
-
-        # EMAIL
-
         email = st.text_input(
-
             f"Email - Passenger {i + 1}",
-
             key=f"email_{i}"
         )
-
-
-        # STORE DETAILS
-
         passenger_data.append({
 
             "name": name,
