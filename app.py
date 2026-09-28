@@ -40,97 +40,48 @@ passengers = st.number_input(
     max_value=10,
     value=1
 )
-
-
 if st.button("🔍 Search Flights"):
-
     if source and destination:
-
         st.session_state.search_done = True
-
         st.session_state.selected_flight = None
-
         st.session_state.passenger_details = None
-
         st.session_state.current_booking = None
-
         st.rerun()
-
     else:
-
         st.warning(
             "Please enter both From and To locations."
         )
-
-
-# =========================================================
-# AVAILABLE FLIGHTS
-# =========================================================
-
 if st.session_state.search_done:
-
     st.divider()
-
     st.header("✈️ Available Flights")
-
-
-    # =====================================================
-    # FLIGHT 1
-    # =====================================================
-
     st.write("### Flight 1")
 
     st.write(
         f"🛫 {source} → {destination}"
     )
-
     st.write("✈️ Air India")
     st.write("🕐 08:00 AM - 11:00 AM")
     st.write("💺 Economy")
     st.write("💰 ₹6,500 per passenger")
-
-
     if st.button("Book Flight 1"):
-
         st.session_state.selected_flight = {
-
             "airline": "Air India",
-
             "flight_number": "AI101",
-
             "time": "08:00 AM - 11:00 AM",
-
             "class": "Economy",
-
             "price": 4500,
-
             "source": source,
-
             "destination": destination,
-
             "date": str(travel_date),
-
             "passengers": int(passengers)
         }
-
         st.session_state.passenger_details = None
-
         st.rerun()
-
-
     st.divider()
-
-
-    # =====================================================
-    # FLIGHT 2
-    # =====================================================
-
     st.write("### Flight 2")
-
     st.write(
         f"🛫 {source} → {destination}"
     )
-
     st.write("✈️ Emirates")
     st.write("🕐 01:30 PM - 04:30 PM")
     st.write("💺 Business Class")
