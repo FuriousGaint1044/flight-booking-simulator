@@ -1,159 +1,392 @@
 import streamlit as st
 import random
+
+
+# --------------------------------------------------
+# PAGE SETTINGS
+# --------------------------------------------------
+
 st.set_page_config(
     page_title="SkyBook",
     page_icon="✈️",
     layout="wide"
 )
+
+
+# --------------------------------------------------
+# SESSION STATE
+# --------------------------------------------------
+
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
+
 if "selected_flight" not in st.session_state:
     st.session_state.selected_flight = None
-if "bookings" not in st.session_state:
-    st.session_state.bookings = []
-if "search_done" not in st.session_state:
-    st.session_state.search_done = False
+
 if "passenger_details" not in st.session_state:
-    st.session_state.passenger_details = None
+    st.session_state.passenger_details = []
+
 if "current_booking" not in st.session_state:
     st.session_state.current_booking = None
+
+if "bookings" not in st.session_state:
+    st.session_state.bookings = []
+
+
+# --------------------------------------------------
+# HEADER
+# --------------------------------------------------
+
 st.title("✈️ SkyBook")
-st.subheader("Flight Booking Simulator")
-st.write("Welcome to SkyBook!")
+
+st.write(
+    "Your Journey, Our Responsibility"
+)
+
 st.divider()
-st.header("🔍 Search Flights")
-col1, col2 = st.columns(2)
+
+
+# --------------------------------------------------
+# NAVIGATION BAR
+# --------------------------------------------------
+
+col1, col2, col3 = st.columns(3)
+
 with col1:
-    source = st.text_input(
-        "From",
-        placeholder="e.g. Kochi"
-    )
-with col2:
-    destination = st.text_input(
-        "To",
-        placeholder="e.g. Delhi"
-    )
-travel_date = st.date_input(
-    "Travel Date"
-)
-passengers = st.number_input(
-    "Number of Passengers",
-    min_value=1,
-    max_value=10,
-    value=1
-)
-if st.button("🔍 Search Flights"):
-    if source and destination:
-        st.session_state.search_done = True
-        st.session_state.selected_flight = None
-        st.session_state.passenger_details = None
-        st.session_state.current_booking = None
+    if st.button("🏠 Home", use_container_width=True):
+        st.session_state.page = "Home"
         st.rerun()
-    else:
-        st.warning(
-            "Please enter both From and To locations."
-        )
-if st.session_state.search_done:
-    st.divider()
-    st.header("✈️ Available Flights")
-    st.write("### Flight 1")
+
+with col2:
+    if st.button("🔎 Search Flights", use_container_width=True):
+        st.session_state.page = "Search"
+        st.rerun()
+
+with col3:
+    if st.button("📚 My Bookings", use_container_width=True):
+        st.session_state.page = "Bookings"
+        st.rerun()
+
+
+st.divider()
+
+
+# ==================================================
+# HOME PAGE
+# ==================================================
+
+if st.session_state.page == "Home":
+
+    st.header("Welcome to SkyBook! 👋")
 
     st.write(
-        f"🛫 {source} → {destination}"
+        "Book your flights easily, enter passenger details, "
+        "make payment and get your ticket."
     )
-    st.write("✈️ Air India")
-    st.write("🕐 08:00 AM - 11:00 AM")
-    st.write("💺 Economy")
-    st.write("💰 ₹6,500 per passenger")
-    if st.button("Book Flight 1"):
+
+    st.write("")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.subheader("🔎 Search")
+        st.write(
+            "Find flights according to your travel requirements."
+        )
+
+    with col2:
+        st.subheader("💳 Pay")
+        st.write(
+            "Choose your payment method and complete your booking."
+        )
+
+    with col3:
+        st.subheader("🎫 Fly")
+        st.write(
+            "Get your booking confirmation and flight ticket."
+        )
+
+    st.write("")
+
+    if st.button(
+        "🔎 Start Booking",
+        use_container_width=True
+    ):
+        st.session_state.page = "Search"
+        st.rerun()
+
+
+# ==================================================
+# SEARCH PAGE
+# ==================================================
+
+elif st.session_state.page == "Search":
+
+    st.header("🔎 Search Flights")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        from_city = st.text_input(
+            "From",
+            placeholder="Example: Kochi"
+        )
+
+    with col2:
+
+        to_city = st.text_input(
+            "To",
+            placeholder="Example: Dubai"
+        )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        travel_date = st.date_input(
+            "Travel Date"
+        )
+
+    with col2:
+
+        passengers = st.number_input(
+            "Number of Passengers",
+            min_value=1,
+            max_value=9,
+            value=1
+        )
+
+    st.write("")
+
+    if st.button(
+        "🔎 Search Flights",
+        use_container_width=True
+    ):
+
+        if from_city == "" or to_city == "":
+
+            st.warning(
+                "Please enter both departure and destination."
+            )
+
+        else:
+
+            st.session_state.search_from = from_city
+            st.session_state.search_to = to_city
+            st.session_state.search_date = travel_date
+            st.session_state.search_passengers = passengers
+
+            st.session_state.page = "Flights"
+
+            st.rerun()
+
+
+# ==================================================
+# FLIGHT SELECTION PAGE
+# ==================================================
+
+elif st.session_state.page == "Flights":
+
+    st.header("✈️ Available Flights")
+
+    st.write(
+        f"📍 {st.session_state.search_from} → "
+        f"{st.session_state.search_to}"
+    )
+
+    st.write(
+        f"📅 {st.session_state.search_date}"
+    )
+
+    st.write(
+        f"👥 Passengers: "
+        f"{st.session_state.search_passengers}"
+    )
+
+    st.divider()
+
+
+    # ----------------------------------------------
+    # FLIGHT 1
+    # ----------------------------------------------
+
+    st.subheader("🇮🇳 Air India")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("✈️ Flight")
+        st.write("AI-101")
+
+    with col2:
+        st.write("🕐 Time")
+        st.write("08:00 AM - 11:00 AM")
+
+    with col3:
+        st.write("💺 Class")
+        st.write("Economy")
+
+    with col4:
+        st.write("💰 Price")
+        st.write("₹4,500")
+
+    if st.button(
+        "Select Air India",
+        key="air_india",
+        use_container_width=True
+    ):
+
         st.session_state.selected_flight = {
             "airline": "Air India",
-            "flight_number": "AI101",
+            "flight_number": "AI-101",
             "time": "08:00 AM - 11:00 AM",
             "class": "Economy",
             "price": 4500,
-            "source": source,
-            "destination": destination,
-            "date": str(travel_date),
-            "passengers": int(passengers)
+            "passengers": st.session_state.search_passengers
         }
-        st.session_state.passenger_details = None
+
+        st.session_state.page = "Passengers"
+
         st.rerun()
+
+
     st.divider()
-    st.write("### Flight 2")
-    st.write(
-        f"🛫 {source} → {destination}"
-    )
-    st.write("✈️ Emirates")
-    st.write("🕐 01:30 PM - 04:30 PM")
-    st.write("💺 Business Class")
-    st.write("💰 ₹15,200 per passenger")
-    if st.button("Book Flight 2"):
+
+
+    # ----------------------------------------------
+    # FLIGHT 2
+    # ----------------------------------------------
+
+    st.subheader("🇦🇪 Emirates")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("✈️ Flight")
+        st.write("EK-502")
+
+    with col2:
+        st.write("🕐 Time")
+        st.write("01:30 PM - 04:30 PM")
+
+    with col3:
+        st.write("💺 Class")
+        st.write("Business")
+
+    with col4:
+        st.write("💰 Price")
+        st.write("₹5,200")
+
+    if st.button(
+        "Select Emirates",
+        key="emirates",
+        use_container_width=True
+    ):
+
         st.session_state.selected_flight = {
             "airline": "Emirates",
-            "flight_number": "EK202",
+            "flight_number": "EK-502",
             "time": "01:30 PM - 04:30 PM",
             "class": "Business Class",
             "price": 5200,
-            "source": source,
-            "destination": destination,
-            "date": str(travel_date),
-            "passengers": int(passengers)
+            "passengers": st.session_state.search_passengers
         }
-        st.session_state.passenger_details = None
+
+        st.session_state.page = "Passengers"
+
         st.rerun()
+
+
     st.divider()
-    st.write("### Flight 3")
-    st.write(
-        f"🛫 {source} → {destination}"
-    )
-    st.write("✈️ IndiGo")
-    st.write("🕐 07:00 PM - 10:00 PM")
-    st.write("💺 Economy")
-    st.write("💰 ₹9,800 per passenger")
-    if st.button("Book Flight 3"):
+
+
+    # ----------------------------------------------
+    # FLIGHT 3
+    # ----------------------------------------------
+
+    st.subheader("🇮🇳 IndiGo")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("✈️ Flight")
+        st.write("6E-145")
+
+    with col2:
+        st.write("🕐 Time")
+        st.write("07:00 PM - 10:00 PM")
+
+    with col3:
+        st.write("💺 Class")
+        st.write("Economy")
+
+    with col4:
+        st.write("💰 Price")
+        st.write("₹4,800")
+
+    if st.button(
+        "Select IndiGo",
+        key="indigo",
+        use_container_width=True
+    ):
+
         st.session_state.selected_flight = {
             "airline": "IndiGo",
-            "flight_number": "6E303",
+            "flight_number": "6E-145",
             "time": "07:00 PM - 10:00 PM",
             "class": "Economy",
             "price": 4800,
-            "source": source,
-            "destination": destination,
-            "date": str(travel_date),
-            "passengers": int(passengers)
+            "passengers": st.session_state.search_passengers
         }
-        st.session_state.passenger_details = None
+
+        st.session_state.page = "Passengers"
+
         st.rerun()
-if st.session_state.selected_flight:
+
+
+# ==================================================
+# PASSENGER DETAILS PAGE
+# ==================================================
+
+elif st.session_state.page == "Passengers":
+
     flight = st.session_state.selected_flight
-    st.divider()
+
     st.header("👤 Passenger Details")
-    st.success(
+
+    st.info(
         f"Selected: {flight['airline']} | "
-        f"{flight['source']} → "
-        f"{flight['destination']}"
+        f"{st.session_state.search_from} → "
+        f"{st.session_state.search_to}"
     )
+
     st.write(
-        f"📅 Date: {flight['date']}"
+        f"📅 Date: {st.session_state.search_date}"
     )
+
     st.write(
-        f"🕐 Time: {flight['time']}"
+        f"✈️ Flight: {flight['flight_number']}"
     )
-    st.write(
-        f"💺 Class: {flight['class']}"
-    )
-    st.write(
-        f"👥 Number of Passengers: "
-        f"{flight['passengers']}"
-    )
+
+    st.divider()
+
+
     passenger_data = []
+
+
     for i in range(flight["passengers"]):
+
         st.subheader(
             f"👤 Passenger {i + 1}"
         )
+
         name = st.text_input(
             f"Full Name - Passenger {i + 1}",
             key=f"name_{i}"
         )
+
+
         passenger_type = st.radio(
             f"Passenger Type - Passenger {i + 1}",
             [
@@ -163,6 +396,8 @@ if st.session_state.selected_flight:
             horizontal=True,
             key=f"type_{i}"
         )
+
+
         age = st.number_input(
             f"Age - Passenger {i + 1}",
             min_value=1,
@@ -170,24 +405,25 @@ if st.session_state.selected_flight:
             value=18,
             key=f"age_{i}"
         )
+
+
         phone = st.text_input(
             f"Phone Number - Passenger {i + 1}",
             key=f"phone_{i}"
         )
+
+
         email = st.text_input(
             f"Email - Passenger {i + 1}",
             key=f"email_{i}"
         )
+
+
         passenger_data.append({
-
             "name": name,
-
             "type": passenger_type,
-
             "age": age,
-
             "phone": phone,
-
             "email": email
         })
 
@@ -195,37 +431,30 @@ if st.session_state.selected_flight:
         st.divider()
 
 
-    # =====================================================
-    # CONTINUE TO PAYMENT
-    # =====================================================
+    if st.button(
+        "Continue to Payment →",
+        use_container_width=True
+    ):
 
-    if st.button("💳 Continue to Payment"):
-
-        details_complete = True
-
+        valid = True
 
         for passenger in passenger_data:
 
-            if (
+            if passenger["name"] == "":
+                valid = False
 
-                passenger["name"] == ""
+            if passenger["phone"] == "":
+                valid = False
 
-                or passenger["phone"] == ""
-
-                or passenger["email"] == ""
-
-            ):
-
-                details_complete = False
+            if passenger["email"] == "":
+                valid = False
 
 
-        if details_complete:
+        if valid:
 
             st.session_state.passenger_details = passenger_data
 
-            st.success(
-                "Passenger details saved successfully!"
-            )
+            st.session_state.page = "Payment"
 
             st.rerun()
 
@@ -236,756 +465,636 @@ if st.session_state.selected_flight:
             )
 
 
-# =========================================================
+# ==================================================
 # PAYMENT PAGE
-# =========================================================
+# ==================================================
 
-if (
-
-    st.session_state.selected_flight
-
-    and st.session_state.passenger_details is not None
-
-    and st.session_state.current_booking is None
-
-):
+elif st.session_state.page == "Payment":
 
     flight = st.session_state.selected_flight
 
+    passengers = st.session_state.passenger_details
+
+
+    st.header("💳 Payment")
+
+    st.subheader("Booking Summary")
+
+    st.write(
+        f"✈️ Airline: {flight['airline']}"
+    )
+
+    st.write(
+        f"🛫 Flight: {flight['flight_number']}"
+    )
+
+    st.write(
+        f"📍 Route: "
+        f"{st.session_state.search_from} → "
+        f"{st.session_state.search_to}"
+    )
+
+    st.write(
+        f"📅 Date: {st.session_state.search_date}"
+    )
+
+    st.write(
+        f"👥 Passengers: {len(passengers)}"
+    )
+
+
     st.divider()
 
-    st.header("💳 Payment Page")
 
-
-    # =====================================================
+    # ----------------------------------------------
     # PRICE CALCULATION
-    # =====================================================
+    # ----------------------------------------------
 
-    base_price = (
-
-        flight["price"]
-
-        * flight["passengers"]
-
+    base_fare = (
+        flight["price"] *
+        len(passengers)
     )
 
+    gst = base_fare * 0.05
 
-    gst = base_price * 0.05
-
-
-    total_price = base_price + gst
+    total = base_fare + gst
 
 
-    st.write(
-        f"✈️ Flight: {flight['airline']}"
-    )
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.write("Base Fare")
+
+    with col2:
+
+        st.write(f"₹{base_fare:,.2f}")
 
 
-    st.write(
-        f"🛫 Route: "
-        f"{flight['source']} → "
-        f"{flight['destination']}"
-    )
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.write("GST (5%)")
+
+    with col2:
+
+        st.write(f"₹{gst:,.2f}")
 
 
-    st.write(
-        f"👥 Passengers: "
-        f"{flight['passengers']}"
-    )
+    st.divider()
 
 
-    st.write(
-        f"💰 Base Fare: ₹{base_price:.2f}"
-    )
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.subheader("Total Amount")
+
+    with col2:
+
+        st.subheader(
+            f"₹{total:,.2f}"
+        )
 
 
-    st.write(
-        f"🧾 GST (5%): ₹{gst:.2f}"
-    )
+    st.divider()
 
 
-    st.write(
-        f"### 💵 Total Amount: "
-        f"₹{total_price:.2f}"
-    )
-
-
-    # =====================================================
+    # ----------------------------------------------
     # PAYMENT METHOD
-    # =====================================================
+    # ----------------------------------------------
 
     payment_method = st.radio(
-
         "Select Payment Method",
-
         [
-
             "Credit / Debit Card",
-
             "UPI",
-
             "Net Banking"
-
         ]
-
     )
 
-
-    # =====================================================
-    # CREDIT / DEBIT CARD
-    # =====================================================
 
     if payment_method == "Credit / Debit Card":
 
         st.text_input(
-
             "Card Number",
-
-            placeholder="Enter card number"
-
+            placeholder="1234 5678 9012 3456"
         )
-
-
-        st.text_input(
-            "Card Holder Name"
-        )
-
 
         col1, col2 = st.columns(2)
-
 
         with col1:
 
             st.text_input(
-
                 "Expiry Date",
-
                 placeholder="MM/YY"
-
             )
-
 
         with col2:
 
             st.text_input(
-
                 "CVV",
-
                 type="password"
-
             )
 
-
-    # =====================================================
-    # UPI
-    # =====================================================
 
     elif payment_method == "UPI":
 
         st.text_input(
-
             "UPI ID",
-
             placeholder="example@upi"
-
         )
 
-
-    # =====================================================
-    # NET BANKING
-    # =====================================================
 
     else:
 
         st.selectbox(
-
             "Select Bank",
-
             [
-
-                "State Bank of India",
-
+                "SBI",
                 "HDFC Bank",
-
                 "ICICI Bank",
-
-                "Axis Bank"
-
+                "Axis Bank",
+                "Canara Bank"
             ]
-
         )
 
 
-        st.text_input(
-            "Account Number"
-        )
+    st.write("")
 
 
-    # =====================================================
-    # PAY NOW
-    # =====================================================
-
-    if st.button("💰 Pay Now"):
+    if st.button(
+        "💳 Pay Now",
+        use_container_width=True
+    ):
 
         booking_id = (
-
-            "SB"
-
-            + str(
+            "SB" +
+            str(
                 random.randint(
                     10000,
                     99999
                 )
             )
-
         )
 
 
         booking = {
 
-            "Booking ID":
-                booking_id,
+            "booking_id": booking_id,
 
-            "Passengers":
-                st.session_state.passenger_details,
+            "airline": flight["airline"],
 
-            "From":
-                flight["source"],
-
-            "To":
-                flight["destination"],
-
-            "Date":
-                flight["date"],
-
-            "Flight":
-                flight["airline"],
-
-            "Flight Number":
+            "flight_number":
                 flight["flight_number"],
 
-            "Time":
+            "from":
+                st.session_state.search_from,
+
+            "to":
+                st.session_state.search_to,
+
+            "date":
+                str(st.session_state.search_date),
+
+            "time":
                 flight["time"],
 
-            "Class":
+            "class":
                 flight["class"],
 
-            "Number of Passengers":
-                flight["passengers"],
+            "passengers":
+                passengers,
 
-            "Base Price":
-                base_price,
+            "base_fare":
+                base_fare,
 
-            "GST":
+            "gst":
                 gst,
 
-            "Total Price":
-                total_price,
+            "total":
+                total,
 
-            "Payment Method":
-                payment_method
+            "payment_method":
+                payment_method,
+
+            "payment_status":
+                "Paid"
         }
 
+
+        st.session_state.current_booking = booking
 
         st.session_state.bookings.append(
             booking
         )
 
-
-        st.session_state.current_booking = booking
-
-
-        st.success(
-            "🎉 Payment Successful!"
-        )
-
+        st.session_state.page = "Ticket"
 
         st.rerun()
 
 
-# =========================================================
-# FLIGHT TICKET
-# =========================================================
+# ==================================================
+# TICKET PAGE
+# ==================================================
 
-if st.session_state.current_booking:
+elif st.session_state.page == "Ticket":
 
     booking = st.session_state.current_booking
 
-    st.divider()
 
-    st.header("🎫 Flight Ticket")
-
+    st.header("🎫 Booking Confirmed!")
 
     st.success(
-        "🎉 Booking Confirmed!"
+        "Your flight has been successfully booked."
     )
 
-
-    st.write(
-        f"### 🎫 Booking ID: "
-        f"{booking['Booking ID']}"
-    )
-
-
-    st.write("---")
-
-
-    # =====================================================
-    # FLIGHT INFORMATION
-    # =====================================================
 
     st.subheader(
-        "✈️ Flight Information"
+        f"Booking ID: {booking['booking_id']}"
     )
 
 
-    st.write(
-        f"**Airline:** "
-        f"{booking['Flight']}"
-    )
+    st.divider()
 
 
-    st.write(
-        f"**Flight Number:** "
-        f"{booking['Flight Number']}"
-    )
+    # ----------------------------------------------
+    # FLIGHT DETAILS
+    # ----------------------------------------------
+
+    st.subheader("✈️ Flight Details")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.write(
+            f"**Airline:** "
+            f"{booking['airline']}"
+        )
+
+        st.write(
+            f"**Flight:** "
+            f"{booking['flight_number']}"
+        )
+
+        st.write(
+            f"**From:** "
+            f"{booking['from']}"
+        )
+
+        st.write(
+            f"**To:** "
+            f"{booking['to']}"
+        )
 
 
-    st.write(
-        f"**From:** "
-        f"{booking['From']}"
-    )
+    with col2:
+
+        st.write(
+            f"**Date:** "
+            f"{booking['date']}"
+        )
+
+        st.write(
+            f"**Time:** "
+            f"{booking['time']}"
+        )
+
+        st.write(
+            f"**Class:** "
+            f"{booking['class']}"
+        )
+
+        st.write(
+            f"**Payment:** "
+            f"{booking['payment_status']}"
+        )
 
 
-    st.write(
-        f"**To:** "
-        f"{booking['To']}"
-    )
+    st.divider()
 
 
-    st.write(
-        f"**Date:** "
-        f"{booking['Date']}"
-    )
+    # ----------------------------------------------
+    # PASSENGER DETAILS
+    # ----------------------------------------------
 
-
-    st.write(
-        f"**Time:** "
-        f"{booking['Time']}"
-    )
-
-
-    st.write(
-        f"**Class:** "
-        f"{booking['Class']}"
-    )
-
-
-    st.write("---")
-
-
-    # =====================================================
-    # PASSENGER INFORMATION
-    # =====================================================
-
-    st.subheader(
-        "👥 Passenger Information"
-    )
+    st.subheader("👤 Passenger Details")
 
 
     for i, passenger in enumerate(
-        booking["Passengers"]
+        booking["passengers"]
     ):
 
         st.write(
             f"### Passenger {i + 1}"
         )
 
-
         st.write(
             f"👤 Name: "
             f"{passenger['name']}"
         )
-
 
         st.write(
             f"🧑 Type: "
             f"{passenger['type']}"
         )
 
-
         st.write(
             f"🎂 Age: "
             f"{passenger['age']}"
         )
-
 
         st.write(
             f"📞 Phone: "
             f"{passenger['phone']}"
         )
 
-
         st.write(
             f"📧 Email: "
             f"{passenger['email']}"
         )
 
+        st.divider()
 
-        st.write("---")
 
+    # ----------------------------------------------
+    # PRICE
+    # ----------------------------------------------
 
-    # =====================================================
-    # PAYMENT INFORMATION
-    # =====================================================
-
-    st.subheader(
-        "💳 Payment Information"
-    )
+    st.subheader("💰 Payment Details")
 
 
     st.write(
         f"Base Fare: "
-        f"₹{booking['Base Price']:.2f}"
+        f"₹{booking['base_fare']:,.2f}"
     )
-
 
     st.write(
         f"GST: "
-        f"₹{booking['GST']:.2f}"
+        f"₹{booking['gst']:,.2f}"
     )
-
 
     st.write(
-        f"### Total Paid: "
-        f"₹{booking['Total Price']:.2f}"
+        f"Total Paid: "
+        f"₹{booking['total']:,.2f}"
     )
-
 
     st.write(
         f"Payment Method: "
-        f"{booking['Payment Method']}"
+        f"{booking['payment_method']}"
     )
 
 
-    st.success(
-        "✅ Payment Status: PAID"
-    )
+    st.divider()
 
 
-    # =====================================================
+    # ----------------------------------------------
     # DOWNLOADABLE TICKET
-    # =====================================================
+    # ----------------------------------------------
 
-    ticket = ""
+    ticket_text = ""
 
-
-    ticket += (
+    ticket_text += (
         "========================================\n"
     )
 
-    ticket += (
+    ticket_text += (
         "              SKYBOOK\n"
     )
 
-    ticket += (
-        "           FLIGHT TICKET\n"
+    ticket_text += (
+        "            FLIGHT TICKET\n"
     )
 
-    ticket += (
+    ticket_text += (
         "========================================\n\n"
     )
 
 
-    ticket += (
-        "Booking ID: "
-        + booking["Booking ID"]
-        + "\n\n"
+    ticket_text += (
+        f"Booking ID: "
+        f"{booking['booking_id']}\n"
+    )
+
+    ticket_text += (
+        f"Airline: "
+        f"{booking['airline']}\n"
+    )
+
+    ticket_text += (
+        f"Flight: "
+        f"{booking['flight_number']}\n"
+    )
+
+    ticket_text += (
+        f"From: "
+        f"{booking['from']}\n"
+    )
+
+    ticket_text += (
+        f"To: "
+        f"{booking['to']}\n"
+    )
+
+    ticket_text += (
+        f"Date: "
+        f"{booking['date']}\n"
+    )
+
+    ticket_text += (
+        f"Time: "
+        f"{booking['time']}\n"
+    )
+
+    ticket_text += (
+        f"Class: "
+        f"{booking['class']}\n\n"
     )
 
 
-    ticket += (
-        "Airline: "
-        + booking["Flight"]
-        + "\n"
-    )
-
-
-    ticket += (
-        "Flight Number: "
-        + booking["Flight Number"]
-        + "\n"
-    )
-
-
-    ticket += (
-        "From: "
-        + booking["From"]
-        + "\n"
-    )
-
-
-    ticket += (
-        "To: "
-        + booking["To"]
-        + "\n"
-    )
-
-
-    ticket += (
-        "Date: "
-        + booking["Date"]
-        + "\n"
-    )
-
-
-    ticket += (
-        "Time: "
-        + booking["Time"]
-        + "\n"
-    )
-
-
-    ticket += (
-        "Class: "
-        + booking["Class"]
-        + "\n\n"
-    )
-
-
-    ticket += (
-        "----------------------------------------\n"
-    )
-
-    ticket += (
+    ticket_text += (
         "PASSENGER DETAILS\n"
     )
 
-    ticket += (
-        "----------------------------------------\n\n"
+    ticket_text += (
+        "----------------------------------------\n"
     )
 
 
     for i, passenger in enumerate(
-        booking["Passengers"]
+        booking["passengers"]
     ):
 
-        ticket += (
-            "Passenger "
-            + str(i + 1)
-            + "\n"
+        ticket_text += (
+            f"\nPassenger {i + 1}\n"
+        )
+
+        ticket_text += (
+            f"Name: "
+            f"{passenger['name']}\n"
+        )
+
+        ticket_text += (
+            f"Type: "
+            f"{passenger['type']}\n"
+        )
+
+        ticket_text += (
+            f"Age: "
+            f"{passenger['age']}\n"
+        )
+
+        ticket_text += (
+            f"Phone: "
+            f"{passenger['phone']}\n"
+        )
+
+        ticket_text += (
+            f"Email: "
+            f"{passenger['email']}\n"
         )
 
 
-        ticket += (
-            "Name: "
-            + passenger["name"]
-            + "\n"
-        )
-
-
-        ticket += (
-            "Type: "
-            + passenger["type"]
-            + "\n"
-        )
-
-
-        ticket += (
-            "Age: "
-            + str(passenger["age"])
-            + "\n"
-        )
-
-
-        ticket += (
-            "Phone: "
-            + passenger["phone"]
-            + "\n"
-        )
-
-
-        ticket += (
-            "Email: "
-            + passenger["email"]
-            + "\n\n"
-        )
-
-
-    ticket += (
-        "----------------------------------------\n"
+    ticket_text += (
+        "\n----------------------------------------\n"
     )
 
-    ticket += (
-        "PAYMENT DETAILS\n"
+    ticket_text += (
+        f"Base Fare: "
+        f"₹{booking['base_fare']:,.2f}\n"
     )
 
-    ticket += (
-        "----------------------------------------\n\n"
+    ticket_text += (
+        f"GST: "
+        f"₹{booking['gst']:,.2f}\n"
     )
 
-
-    ticket += (
-        "Base Fare: ₹"
-        + f"{booking['Base Price']:.2f}"
-        + "\n"
+    ticket_text += (
+        f"Total Paid: "
+        f"₹{booking['total']:,.2f}\n"
     )
 
-
-    ticket += (
-        "GST: ₹"
-        + f"{booking['GST']:.2f}"
-        + "\n"
+    ticket_text += (
+        f"Payment Method: "
+        f"{booking['payment_method']}\n"
     )
 
-
-    ticket += (
-        "Total Paid: ₹"
-        + f"{booking['Total Price']:.2f}"
-        + "\n"
+    ticket_text += (
+        f"Payment Status: "
+        f"{booking['payment_status']}\n"
     )
 
-
-    ticket += (
-        "Payment Method: "
-        + booking["Payment Method"]
-        + "\n"
+    ticket_text += (
+        "\n========================================\n"
     )
 
-
-    ticket += (
-        "Payment Status: PAID\n\n"
+    ticket_text += (
+        "       Thank you for choosing SkyBook!\n"
     )
 
-
-    ticket += (
-        "========================================\n"
-    )
-
-    ticket += (
-        "       THANK YOU FOR USING SKYBOOK\n"
-    )
-
-    ticket += (
+    ticket_text += (
         "========================================\n"
     )
 
 
     st.download_button(
-
-        "📥 Download Flight Ticket",
-
-        ticket,
-
+        "📥 Download Ticket",
+        ticket_text,
         file_name=(
-            "SkyBook_Ticket_"
-            + booking["Booking ID"]
-            + ".txt"
+            f"SkyBook_{booking['booking_id']}.txt"
         ),
-
-        mime="text/plain"
-
+        mime="text/plain",
+        use_container_width=True
     )
 
 
-# =========================================================
-# MY BOOKINGS
-# =========================================================
-
-st.divider()
-
-st.header("📋 My Bookings")
+    st.write("")
 
 
-if not st.session_state.bookings:
+    if st.button(
+        "🏠 Back to Home",
+        use_container_width=True
+    ):
 
-    st.info(
-        "No bookings yet."
-    )
+        st.session_state.page = "Home"
+
+        st.rerun()
 
 
-else:
+# ==================================================
+# MY BOOKINGS PAGE
+# ==================================================
 
-    for booking in st.session_state.bookings:
+elif st.session_state.page == "Bookings":
 
-        st.success(
-            "🎫 Booking ID: "
-            + booking["Booking ID"]
+    st.header("📚 My Bookings")
+
+
+    if len(st.session_state.bookings) == 0:
+
+        st.info(
+            "You don't have any bookings yet."
         )
 
-
-        st.write(
-            "✈️ Flight: "
-            + booking["Flight"]
-        )
-
-
-        st.write(
-            "🛫 Route: "
-            + booking["From"]
-            + " → "
-            + booking["To"]
-        )
-
-
-        st.write(
-            "📅 Date: "
-            + booking["Date"]
-        )
-
-
-        st.write(
-            "👥 Number of Passengers: "
-            + str(
-                booking[
-                    "Number of Passengers"
-                ]
-            )
-        )
-
-
-        st.write(
-            "### Passengers"
-        )
-
-
-        for i, passenger in enumerate(
-            booking["Passengers"]
+        if st.button(
+            "🔎 Search Flights",
+            use_container_width=True
         ):
 
+            st.session_state.page = "Search"
+
+            st.rerun()
+
+
+    else:
+
+        for booking in st.session_state.bookings:
+
+            st.subheader(
+                f"🎫 Booking ID: "
+                f"{booking['booking_id']"
+            )
+
             st.write(
+                f"✈️ {booking['airline']} "
+                f"({booking['flight_number']})"
+            )
 
-                str(i + 1)
+            st.write(
+                f"📍 {booking['from']} → "
+                f"{booking['to']}"
+            )
 
-                + ". "
+            st.write(
+                f"📅 {booking['date']}"
+            )
 
-                + passenger["name"]
+            st.write(
+                f"💰 Total: "
+                f"₹{booking['total']:,.2f}"
+            )
 
-                + " - "
-
-                + passenger["type"]
-
-                + " (Age: "
-
-                + str(
-                    passenger["age"]
-                )
-
-                + ")"
-
+            st.write(
+                f"✅ Status: "
+                f"{booking['payment_status']}"
             )
 
 
-        st.write(
-            "💰 Total Price: ₹"
-            + f"{booking['Total Price']:.2f}"
-        )
+            st.write("👤 Passengers:")
 
 
-        st.write(
-            "💳 Payment: "
-            + booking["Payment Method"]
-        )
+            for i, passenger in enumerate(
+                booking["passengers"]
+            ):
+
+                st.write(
+                    f"{i + 1}. "
+                    f"{passenger['name']} - "
+                    f"{passenger['type']} "
+                    f"(Age: {passenger['age']})"
+                )
 
 
-        st.divider()
+            st.divider()
