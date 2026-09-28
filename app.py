@@ -305,146 +305,77 @@ elif st.session_state.page == "Passengers":
         "← Back to Flights",
         use_container_width=True
         ):
-
             st.session_state.page = "Flights"
-
             st.rerun()
-
-
     with col2:
-
         if st.button(
             "Continue to Payment →",
             use_container_width=True
         ):
-
             valid = True
-
-
             for passenger in passenger_data:
-
                 if passenger["name"].strip() == "":
                     valid = False
-
                 if passenger["phone"].strip() == "":
                     valid = False
-
                 if passenger["email"].strip() == "":
                     valid = False
-
-
             if valid:
-
                 st.session_state.passenger_details = (
                     passenger_data
                 )
-
                 st.session_state.page = "Payment"
-
                 st.rerun()
-
-
             else:
-
                 st.warning(
                     "Please fill in all passenger details."
                 )
-
-
-# ==================================================
-# PAYMENT PAGE
-# ==================================================
-
 elif st.session_state.page == "Payment":
-
     flight = st.session_state.selected_flight
-
     passengers = st.session_state.passenger_details
-
-
     st.header("💳 Payment")
-
-
     st.subheader("Booking Summary")
-
-
     st.write(
         f"✈️ Airline: "
         f"{flight['airline']}"
     )
-
-
     st.write(
         f"🛫 Flight: "
         f"{flight['flight_number']}"
     )
-
-
     st.write(
         f"📍 Route: "
         f"{st.session_state.search_from} → "
         f"{st.session_state.search_to}"
     )
-
-
     st.write(
         f"📅 Date: "
         f"{st.session_state.search_date}"
     )
-
-
     st.write(
         f"👥 Passengers: "
         f"{len(passengers)}"
     )
-
-
     st.divider()
-
-
-    # --------------------------------------------------
-    # PRICE CALCULATION
-    # --------------------------------------------------
-
     base_fare = (
         flight["price"] *
         len(passengers)
     )
-
-
     gst = base_fare * 0.05
-
-
     total = base_fare + gst
-
-
     st.write(
         f"Base Fare: "
         f"₹{base_fare:,.2f}"
     )
-
-
     st.write(
         f"GST (5%): "
         f"₹{gst:,.2f}"
     )
-
-
     st.divider()
-
-
     st.subheader(
         f"Total Amount: ₹{total:,.2f}"
     )
-
-
     st.divider()
-
-
-    # --------------------------------------------------
-    # PAYMENT METHOD
-    # --------------------------------------------------
-
     payment_method = st.radio(
         "Select Payment Method",
         [
@@ -453,45 +384,30 @@ elif st.session_state.page == "Payment":
             "Net Banking"
         ]
     )
-
-
     if payment_method == "Credit / Debit Card":
 
         st.text_input(
             "Card Number",
             placeholder="1234 5678 9012 3456"
         )
-
-
         col1, col2 = st.columns(2)
-
-
         with col1:
 
             st.text_input(
                 "Expiry Date",
                 placeholder="MM/YY"
             )
-
-
         with col2:
-
             st.text_input(
                 "CVV",
                 type="password"
             )
-
-
     elif payment_method == "UPI":
-
         st.text_input(
             "UPI ID",
             placeholder="example@upi"
         )
-
-
     else:
-
         st.selectbox(
             "Select Bank",
             [
@@ -502,33 +418,20 @@ elif st.session_state.page == "Payment":
                 "Canara Bank"
             ]
         )
-
-
     st.write("")
-
-
     col1, col2 = st.columns(2)
-
-
     with col1:
-
         if st.button(
             "← Back to Passenger Details",
             use_container_width=True
         ):
-
             st.session_state.page = "Passengers"
-
             st.rerun()
-
-
     with col2:
-
         if st.button(
             "💳 Pay Now",
             use_container_width=True
         ):
-
             booking_id = (
                 "SB" +
                 str(
@@ -538,258 +441,144 @@ elif st.session_state.page == "Payment":
                     )
                 )
             )
-
-
             booking = {
-
                 "booking_id":
                     booking_id,
-
                 "airline":
                     flight["airline"],
-
                 "flight_number":
                     flight["flight_number"],
-
                 "from":
                     st.session_state.search_from,
-
                 "to":
                     st.session_state.search_to,
-
                 "date":
                     str(
                         st.session_state.search_date
                     ),
-
                 "time":
                     flight["time"],
-
                 "class":
                     flight["class"],
-
                 "passengers":
                     passengers,
-
                 "base_fare":
                     base_fare,
-
                 "gst":
                     gst,
-
                 "total":
                     total,
-
                 "payment_method":
                     payment_method,
-
                 "payment_status":
                     "Paid"
-
             }
-
-
             st.session_state.current_booking = (
                 booking
             )
-
-
             st.session_state.bookings.append(
                 booking
             )
-
-
             st.session_state.page = "Ticket"
-
             st.rerun()
-
-
-# ==================================================
-# TICKET PAGE
-# ==================================================
-
 elif st.session_state.page == "Ticket":
-
     booking = st.session_state.current_booking
-
-
     st.header("🎫 Booking Confirmed!")
-
-
     st.success(
         "Your flight has been successfully booked."
     )
-
-
     st.subheader(
         f"Booking ID: "
         f"{booking['booking_id']}"
     )
-
-
     st.divider()
-
-
-    # --------------------------------------------------
-    # FLIGHT DETAILS
-    # --------------------------------------------------
-
     st.subheader("✈️ Flight Details")
-
-
     col1, col2 = st.columns(2)
-
-
     with col1:
-
         st.write(
             f"**Airline:** "
             f"{booking['airline']}"
         )
-
-
         st.write(
             f"**Flight:** "
             f"{booking['flight_number']}"
         )
-
-
         st.write(
             f"**From:** "
             f"{booking['from']}"
         )
-
-
         st.write(
             f"**To:** "
             f"{booking['to']}"
         )
-
-
     with col2:
-
         st.write(
             f"**Date:** "
             f"{booking['date']}"
         )
-
-
         st.write(
             f"**Time:** "
             f"{booking['time']}"
         )
-
-
         st.write(
             f"**Class:** "
             f"{booking['class']}"
         )
-
-
         st.write(
             f"**Payment:** "
             f"{booking['payment_status']}"
         )
-
-
     st.divider()
-
-
-    # --------------------------------------------------
-    # PASSENGER DETAILS
-    # --------------------------------------------------
-
     st.subheader("👤 Passenger Details")
-
-
     for i, passenger in enumerate(
         booking["passengers"]
     ):
-
         st.write(
             f"### Passenger {i + 1}"
         )
-
-
         st.write(
             f"👤 Name: "
             f"{passenger['name']}"
         )
-
-
         st.write(
             f"🧑 Type: "
             f"{passenger['type']}"
         )
-
-
         st.write(
             f"🎂 Age: "
             f"{passenger['age']}"
         )
-
-
         st.write(
             f"📞 Phone: "
             f"{passenger['phone']}"
         )
-
-
         st.write(
             f"📧 Email: "
             f"{passenger['email']}"
         )
-
-
         st.divider()
-
-
-    # --------------------------------------------------
-    # PAYMENT DETAILS
-    # --------------------------------------------------
-
     st.subheader("💰 Payment Details")
-
-
     st.write(
         f"Base Fare: "
         f"₹{booking['base_fare']:,.2f}"
     )
-
-
     st.write(
         f"GST: "
         f"₹{booking['gst']:,.2f}"
     )
-
-
     st.write(
         f"Total Paid: "
         f"₹{booking['total']:,.2f}"
     )
-
-
     st.write(
         f"Payment Method: "
         f"{booking['payment_method']}"
     )
-
-
     st.divider()
-
-
-    # --------------------------------------------------
-    # DOWNLOADABLE TICKET
-    # --------------------------------------------------
-
     ticket_text = ""
-
-
     ticket_text += (
         "========================================\n"
     )
-
-
     ticket_text += (
         "                 SKYBOOK\n"
     )
