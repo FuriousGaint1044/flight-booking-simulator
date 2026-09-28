@@ -115,263 +115,127 @@ elif st.session_state.page == "Search":
     use_container_width=True,
     key="search_flights_button"
     ):
-
         if from_city.strip() == "":
-
             st.warning(
                 "Please enter the departure city."
             )
-
-
         elif to_city.strip() == "":
-
             st.warning(
                 "Please enter the destination city."
             )
-
-
         else:
-
             st.session_state.search_from = from_city
-
             st.session_state.search_to = to_city
-
             st.session_state.search_date = travel_date
-
             st.session_state.search_passengers = passengers
-
             st.session_state.page = "Flights"
-
             st.rerun()
-
-
-# ==================================================
-# FLIGHT SELECTION PAGE
-# ==================================================
-
 elif st.session_state.page == "Flights":
-
     st.header("✈️ Available Flights")
-
     st.write(
         f"📍 {st.session_state.search_from} → "
         f"{st.session_state.search_to}"
     )
-
     st.write(
         f"📅 {st.session_state.search_date}"
     )
-
     st.write(
         f"👥 Passengers: "
         f"{st.session_state.search_passengers}"
     )
-
     st.divider()
-
-
-    # --------------------------------------------------
-    # AIR INDIA
-    # --------------------------------------------------
-
     st.subheader("🇮🇳 Air India")
-
     col1, col2, col3, col4 = st.columns(4)
-
     with col1:
-
         st.write("✈️ Flight")
-
         st.write("AI-101")
-
-
     with col2:
-
         st.write("🕐 Time")
-
         st.write("08:00 AM - 11:00 AM")
-
-
     with col3:
-
         st.write("💺 Class")
-
         st.write("Economy")
-
-
     with col4:
-
         st.write("💰 Price")
-
         st.write("₹4,500 / passenger")
-
-
     if st.button(
         "Select Air India",
         key="air_india_button",
         use_container_width=True
     ):
-
         st.session_state.selected_flight = {
-
             "airline": "Air India",
-
             "flight_number": "AI-101",
-
             "time": "08:00 AM - 11:00 AM",
-
             "class": "Economy",
-
             "price": 4500,
-
             "passengers":
                 st.session_state.search_passengers
-
         }
-
         st.session_state.page = "Passengers"
-
         st.rerun()
-
-
     st.divider()
-
-
-    # --------------------------------------------------
-    # EMIRATES
-    # --------------------------------------------------
-
     st.subheader("🇦🇪 Emirates")
-
     col1, col2, col3, col4 = st.columns(4)
-
     with col1:
-
         st.write("✈️ Flight")
-
         st.write("EK-502")
-
-
     with col2:
-
         st.write("🕐 Time")
-
         st.write("01:30 PM - 04:30 PM")
-
-
     with col3:
-
         st.write("💺 Class")
-
         st.write("Business Class")
-
-
     with col4:
-
         st.write("💰 Price")
-
         st.write("₹5,200 / passenger")
-
-
     if st.button(
         "Select Emirates",
         key="emirates_button",
         use_container_width=True
     ):
-
         st.session_state.selected_flight = {
-
             "airline": "Emirates",
-
             "flight_number": "EK-502",
-
             "time": "01:30 PM - 04:30 PM",
-
             "class": "Business Class",
-
             "price": 5200,
-
             "passengers":
                 st.session_state.search_passengers
-
         }
-
         st.session_state.page = "Passengers"
-
         st.rerun()
-
-
     st.divider()
-
-
-    # --------------------------------------------------
-    # INDIGO
-    # --------------------------------------------------
-
     st.subheader("🇮🇳 IndiGo")
-
     col1, col2, col3, col4 = st.columns(4)
-
     with col1:
-
         st.write("✈️ Flight")
-
         st.write("6E-145")
-
-
     with col2:
-
         st.write("🕐 Time")
-
         st.write("07:00 PM - 10:00 PM")
-
-
     with col3:
-
         st.write("💺 Class")
-
         st.write("Economy")
-
-
     with col4:
-
         st.write("💰 Price")
-
         st.write("₹4,800 / passenger")
-
-
     if st.button(
         "Select IndiGo",
         key="indigo_button",
         use_container_width=True
     ):
-
         st.session_state.selected_flight = {
-
             "airline": "IndiGo",
-
             "flight_number": "6E-145",
-
             "time": "07:00 PM - 10:00 PM",
-
             "class": "Economy",
-
             "price": 4800,
-
             "passengers":
                 st.session_state.search_passengers
-
         }
-
         st.session_state.page = "Passengers"
-
         st.rerun()
-
-
-# ==================================================
-# PASSENGER DETAILS PAGE
-# ==================================================
-
 elif st.session_state.page == "Passengers":
 
     flight = st.session_state.selected_flight
