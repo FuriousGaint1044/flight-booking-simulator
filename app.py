@@ -205,8 +205,9 @@ elif st.session_state.page == "Search":
 
 
     if st.button(
-        "🔎 Search Flights",
-        use_container_width=True
+    "🔎 Search Flights",
+    use_container_width=True,
+    key="search_flights_button"
     ):
 
         if from_city.strip() == "":
