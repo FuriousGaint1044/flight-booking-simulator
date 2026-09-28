@@ -167,6 +167,7 @@ if st.session_state.selected_flight:
             f"Age - Passenger {i + 1}",
             min_value=1,
             max_value=100,
+            value=18,
             key=f"age_{i}"
         )
         phone = st.text_input(
