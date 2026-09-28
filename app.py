@@ -1,77 +1,39 @@
 import streamlit as st
 import random
-
-# =========================================================
-# PAGE SETTINGS
-# =========================================================
-
 st.set_page_config(
     page_title="SkyBook",
     page_icon="✈️",
     layout="wide"
 )
-
-
-# =========================================================
-# SESSION STATE
-# =========================================================
-
 if "selected_flight" not in st.session_state:
     st.session_state.selected_flight = None
-
 if "bookings" not in st.session_state:
     st.session_state.bookings = []
-
 if "search_done" not in st.session_state:
     st.session_state.search_done = False
-
 if "passenger_details" not in st.session_state:
     st.session_state.passenger_details = None
-
 if "current_booking" not in st.session_state:
     st.session_state.current_booking = None
-
-
-# =========================================================
-# TITLE
-# =========================================================
-
 st.title("✈️ SkyBook")
 st.subheader("Flight Booking Simulator")
-
 st.write("Welcome to SkyBook!")
-
 st.divider()
-
-
-# =========================================================
-# SEARCH FLIGHTS
-# =========================================================
-
 st.header("🔍 Search Flights")
-
 col1, col2 = st.columns(2)
-
 with col1:
-
     source = st.text_input(
         "From",
         placeholder="e.g. Kochi"
     )
-
 with col2:
-
     destination = st.text_input(
         "To",
         placeholder="e.g. Delhi"
     )
-
-
 travel_date = st.date_input(
     "Travel Date"
 )
-
-
 passengers = st.number_input(
     "Number of Passengers",
     min_value=1,
