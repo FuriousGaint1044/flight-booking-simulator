@@ -1,67 +1,32 @@
 import streamlit as st
 import random
-
-
-# ==================================================
-# PAGE SETTINGS
-# ==================================================
-
 st.set_page_config(
     page_title="SkyBook",
     page_icon="✈️",
     layout="wide"
 )
-
-
-# ==================================================
-# SESSION STATE
-# ==================================================
-
 if "page" not in st.session_state:
     st.session_state.page = "Home"
-
 if "selected_flight" not in st.session_state:
     st.session_state.selected_flight = None
-
 if "passenger_details" not in st.session_state:
     st.session_state.passenger_details = []
-
 if "current_booking" not in st.session_state:
     st.session_state.current_booking = None
-
 if "bookings" not in st.session_state:
     st.session_state.bookings = []
-
 if "search_from" not in st.session_state:
     st.session_state.search_from = ""
-
 if "search_to" not in st.session_state:
     st.session_state.search_to = ""
-
 if "search_date" not in st.session_state:
     st.session_state.search_date = None
-
 if "search_passengers" not in st.session_state:
     st.session_state.search_passengers = 1
-
-
-# ==================================================
-# HEADER
-# ==================================================
-
 st.title("✈️ SkyBook")
-
 st.write("Your Journey, Our Responsibility")
-
 st.divider()
-
-
-# ==================================================
-# NAVIGATION BAR
-# ==================================================
-
 col1, col2, col3 = st.columns(3)
-
 with col1:
     if st.button(
         "🏠 Home",
@@ -69,8 +34,6 @@ with col1:
     ):
         st.session_state.page = "Home"
         st.rerun()
-
-
 with col2:
     if st.button(
         "🔎 Search Flights",
@@ -78,8 +41,6 @@ with col2:
     ):
         st.session_state.page = "Search"
         st.rerun()
-
-
 with col3:
     if st.button(
         "📚 My Bookings",
@@ -87,111 +48,60 @@ with col3:
     ):
         st.session_state.page = "Bookings"
         st.rerun()
-
-
 st.divider()
-
-
-# ==================================================
-# HOME PAGE
-# ==================================================
-
 if st.session_state.page == "Home":
-
     st.header("Welcome to SkyBook! 👋")
-
     st.write(
         "Book your flights easily, enter passenger details, "
         "make payment and get your ticket."
     )
-
     st.write("")
-
     col1, col2, col3 = st.columns(3)
-
     with col1:
-
         st.subheader("🔎 Search")
-
         st.write(
             "Find flights according to your travel requirements."
         )
-
-
     with col2:
-
         st.subheader("💳 Pay")
-
         st.write(
             "Choose your payment method and complete your booking."
         )
-
-
     with col3:
-
         st.subheader("🎫 Fly")
-
         st.write(
             "Get your booking confirmation and flight ticket."
         )
-
-
     st.write("")
-
     if st.button(
         "🔎 Start Booking",
         use_container_width=True
     ):
-
         st.session_state.page = "Search"
-
         st.rerun()
-
-
-# ==================================================
-# SEARCH PAGE
-# ==================================================
-
 elif st.session_state.page == "Search":
-
     st.header("🔎 Search Flights")
-
     st.write(
         "Enter your travel details below."
     )
-
     st.write("")
-
-
     col1, col2 = st.columns(2)
-
     with col1:
-
         from_city = st.text_input(
             "From",
             placeholder="Example: Kochi"
         )
-
-
     with col2:
-
         to_city = st.text_input(
             "To",
             placeholder="Example: Dubai"
         )
-
-
     col1, col2 = st.columns(2)
-
     with col1:
-
         travel_date = st.date_input(
             "Travel Date"
         )
-
-
     with col2:
-
         passengers = st.number_input(
             "Number of Passengers",
             min_value=1,
@@ -199,11 +109,7 @@ elif st.session_state.page == "Search":
             value=1,
             step=1
         )
-
-
     st.write("")
-
-
     if st.button(
     "🔎 Search Flights",
     use_container_width=True,
