@@ -1054,7 +1054,7 @@ elif st.session_state.page == "Bookings":
 
             st.subheader(
                 f"🎫 Booking ID: "
-                f"{booking['booking_id']"
+                f"{booking['booking_id']}"
             )
 
             st.write(
