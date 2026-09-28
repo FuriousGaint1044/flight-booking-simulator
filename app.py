@@ -237,57 +237,35 @@ elif st.session_state.page == "Flights":
         st.session_state.page = "Passengers"
         st.rerun()
 elif st.session_state.page == "Passengers":
-
     flight = st.session_state.selected_flight
-
-
     st.header("👤 Passenger Details")
-
-
     st.info(
         f"Selected: {flight['airline']} | "
         f"{st.session_state.search_from} → "
         f"{st.session_state.search_to}"
     )
-
-
     st.write(
         f"📅 Date: "
         f"{st.session_state.search_date}"
     )
-
-
     st.write(
         f"✈️ Flight: "
         f"{flight['flight_number']}"
     )
-
-
     st.write(
         f"👥 Passengers: "
         f"{flight['passengers']}"
     )
-
-
     st.divider()
-
-
     passenger_data = []
-
-
     for i in range(flight["passengers"]):
-
         st.subheader(
             f"👤 Passenger {i + 1}"
         )
-
-
         name = st.text_input(
             f"Full Name - Passenger {i + 1}",
             key=f"passenger_name_{i}"
         )
-
-
         passenger_type = st.radio(
             f"Passenger Type - Passenger {i + 1}",
             [
@@ -297,8 +275,6 @@ elif st.session_state.page == "Passengers":
             horizontal=True,
             key=f"passenger_type_{i}"
         )
-
-
         age = st.number_input(
             f"Age - Passenger {i + 1}",
             min_value=1,
@@ -307,46 +283,27 @@ elif st.session_state.page == "Passengers":
             step=1,
             key=f"passenger_age_{i}"
         )
-
-
         phone = st.text_input(
             f"Phone Number - Passenger {i + 1}",
             key=f"passenger_phone_{i}"
         )
-
-
         email = st.text_input(
             f"Email - Passenger {i + 1}",
             key=f"passenger_email_{i}"
         )
-
-
         passenger_data.append({
-
             "name": name,
-
             "type": passenger_type,
-
             "age": age,
-
             "phone": phone,
-
             "email": email
-
         })
-
-
         st.divider()
-
-
     col1, col2 = st.columns(2)
-
-
     with col1:
-
         if st.button(
-            "← Back to Flights",
-            use_container_width=True
+        "← Back to Flights",
+        use_container_width=True
         ):
 
             st.session_state.page = "Flights"
