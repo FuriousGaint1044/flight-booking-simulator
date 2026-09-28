@@ -582,165 +582,108 @@ elif st.session_state.page == "Ticket":
     ticket_text += (
         "                 SKYBOOK\n"
     )
-
-
     ticket_text += (
         "               FLIGHT TICKET\n"
     )
-
-
     ticket_text += (
         "========================================\n\n"
     )
-
-
     ticket_text += (
         f"Booking ID: "
         f"{booking['booking_id']}\n"
     )
-
-
     ticket_text += (
         f"Airline: "
         f"{booking['airline']}\n"
     )
-
-
     ticket_text += (
         f"Flight: "
         f"{booking['flight_number']}\n"
     )
-
-
     ticket_text += (
         f"From: "
         f"{booking['from']}\n"
     )
-
-
     ticket_text += (
         f"To: "
         f"{booking['to']}\n"
     )
-
-
     ticket_text += (
         f"Date: "
         f"{booking['date']}\n"
     )
-
-
     ticket_text += (
         f"Time: "
         f"{booking['time']}\n"
     )
-
-
     ticket_text += (
         f"Class: "
         f"{booking['class']}\n\n"
     )
-
-
     ticket_text += (
         "PASSENGER DETAILS\n"
     )
-
-
     ticket_text += (
         "----------------------------------------\n"
     )
-
-
     for i, passenger in enumerate(
         booking["passengers"]
     ):
-
         ticket_text += (
             f"\nPassenger {i + 1}\n"
         )
-
-
         ticket_text += (
             f"Name: "
             f"{passenger['name']}\n"
         )
-
-
         ticket_text += (
             f"Type: "
             f"{passenger['type']}\n"
         )
-
-
         ticket_text += (
             f"Age: "
             f"{passenger['age']}\n"
         )
-
-
         ticket_text += (
             f"Phone: "
             f"{passenger['phone']}\n"
         )
-
-
         ticket_text += (
             f"Email: "
             f"{passenger['email']}\n"
         )
-
-
     ticket_text += (
         "\n----------------------------------------\n"
     )
-
-
     ticket_text += (
         f"Base Fare: "
         f"₹{booking['base_fare']:,.2f}\n"
     )
-
-
     ticket_text += (
         f"GST: "
         f"₹{booking['gst']:,.2f}\n"
     )
-
-
     ticket_text += (
         f"Total Paid: "
         f"₹{booking['total']:,.2f}\n"
     )
-
-
     ticket_text += (
         f"Payment Method: "
         f"{booking['payment_method']}\n"
     )
-
-
     ticket_text += (
         f"Payment Status: "
         f"{booking['payment_status']}\n"
     )
-
-
     ticket_text += (
         "\n========================================\n"
     )
-
-
     ticket_text += (
         "       Thank you for choosing SkyBook!\n"
     )
-
-
     ticket_text += (
         "========================================\n"
     )
-
-
     st.download_button(
         "📥 Download Ticket",
         ticket_text,
@@ -751,32 +694,16 @@ elif st.session_state.page == "Ticket":
         mime="text/plain",
         use_container_width=True
     )
-
-
     st.write("")
-
-
     if st.button(
         "🏠 Back to Home",
         use_container_width=True
     ):
-
         st.session_state.page = "Home"
-
         st.rerun()
-
-
-# ==================================================
-# MY BOOKINGS PAGE
-# ==================================================
-
 elif st.session_state.page == "Bookings":
-
     st.header("📚 My Bookings")
-
-
     if len(st.session_state.bookings) == 0:
-
         st.info(
             "You don't have any bookings yet."
         )
@@ -788,57 +715,38 @@ elif st.session_state.page == "Bookings":
             st.session_state.page = "Search"
             st.rerun()
     else:
-
         for booking in st.session_state.bookings:
-
             st.subheader(
                 f"🎫 Booking ID: "
                 f"{booking['booking_id']}"
             )
-
-
             st.write(
                 f"✈️ {booking['airline']} "
                 f"({booking['flight_number']})"
             )
-
-
             st.write(
                 f"📍 {booking['from']} → "
                 f"{booking['to']}"
             )
-
-
             st.write(
                 f"📅 {booking['date']}"
             )
-
-
             st.write(
                 f"💰 Total: "
                 f"₹{booking['total']:,.2f}"
             )
-
-
             st.write(
                 f"✅ Status: "
                 f"{booking['payment_status']}"
             )
-
-
             st.write("👤 Passengers:")
-
-
             for i, passenger in enumerate(
                 booking["passengers"]
             ):
-
                 st.write(
                     f"{i + 1}. "
                     f"{passenger['name']} - "
                     f"{passenger['type']} "
                     f"(Age: {passenger['age']})"
                 )
-
-
             st.divider()
