@@ -1,121 +1,77 @@
 import streamlit as st
 import random
-
 st.set_page_config(page_title="SkyBook", page_icon="✈️", layout="wide")
-
-# ---------------- SESSION VARIABLES ----------------
-
 if "page" not in st.session_state:
     st.session_state.page = "Home"
-
 if "bookings" not in st.session_state:
     st.session_state.bookings = []
-
 if "selected_flight" not in st.session_state:
     st.session_state.selected_flight = None
-
 if "passenger_details" not in st.session_state:
     st.session_state.passenger_details = []
-
 if "search_from" not in st.session_state:
     st.session_state.search_from = ""
-
 if "search_to" not in st.session_state:
     st.session_state.search_to = ""
-
 if "search_date" not in st.session_state:
     st.session_state.search_date = None
-
 if "search_passengers" not in st.session_state:
     st.session_state.search_passengers = 1
-
 if "current_booking" not in st.session_state:
     st.session_state.current_booking = None
-
-
-# ---------------- HEADER ----------------
-
 st.title("✈️ SkyBook")
 st.write("Your Journey, Our Responsibility")
 st.divider()
-
 c1, c2, c3 = st.columns(3)
-
 with c1:
     if st.button("🏠 Home", use_container_width=True):
         st.session_state.page = "Home"
         st.rerun()
-
 with c2:
     if st.button("🔎 Search Flights", use_container_width=True):
         st.session_state.page = "Search"
         st.rerun()
-
 with c3:
     if st.button("📚 My Bookings", use_container_width=True):
         st.session_state.page = "Bookings"
         st.rerun()
-
 st.divider()
-
-
-# ---------------- HOME ----------------
-
 if st.session_state.page == "Home":
-
     st.header("Welcome to SkyBook! 👋")
-
     st.write(
         "Book your flights easily, enter passenger details, "
         "make payment and get your ticket."
     )
-
     c1, c2, c3 = st.columns(3)
-
     with c1:
         st.subheader("🔎 Search")
         st.write("Find flights according to your travel requirements.")
-
     with c2:
         st.subheader("💳 Pay")
         st.write("Choose your payment method and complete your booking.")
-
     with c3:
         st.subheader("🎫 Fly")
         st.write("Get your booking confirmation and flight ticket.")
-
     st.write("")
-
     if st.button("🔎 Start Booking", use_container_width=True):
         st.session_state.page = "Search"
         st.rerun()
-
-
-# ---------------- SEARCH ----------------
-
 elif st.session_state.page == "Search":
-
     st.header("🔎 Search Flights")
-
     c1, c2 = st.columns(2)
-
     with c1:
         from_city = st.text_input(
             "From",
             placeholder="Example: Kochi"
         )
-
     with c2:
         to_city = st.text_input(
             "To",
             placeholder="Example: Dubai"
         )
-
     c1, c2 = st.columns(2)
-
     with c1:
         travel_date = st.date_input("Travel Date")
-
     with c2:
         passengers = st.number_input(
             "Number of Passengers",
@@ -123,7 +79,6 @@ elif st.session_state.page == "Search":
             max_value=9,
             value=1
         )
-
     if st.button(
         "🔎 Search Flights",
         use_container_width=True,
