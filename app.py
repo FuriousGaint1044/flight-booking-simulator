@@ -1,9 +1,6 @@
 import streamlit as st
 import random
-
 st.set_page_config(page_title="SkyBook", page_icon="✈️", layout="wide")
-
-# Session variables
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 if "bookings" not in st.session_state:
@@ -14,61 +11,41 @@ if "passengers" not in st.session_state:
     st.session_state.passengers = []
 if "booking" not in st.session_state:
     st.session_state.booking = None
-
-# Header
 st.title("✈️ SkyBook")
 st.write("Your Journey, Our Responsibility")
-
 a, b, c = st.columns(3)
-
 with a:
     if st.button("🏠 Home", use_container_width=True):
         st.session_state.page = "Home"
         st.rerun()
-
 with b:
     if st.button("🔎 Search Flights", use_container_width=True):
         st.session_state.page = "Search"
         st.rerun()
-
 with c:
     if st.button("📚 My Bookings", use_container_width=True):
         st.session_state.page = "Bookings"
         st.rerun()
-
 st.divider()
-
-# HOME PAGE
 if st.session_state.page == "Home":
-
     st.header("Welcome to SkyBook! 👋")
     st.write("Book flights, enter passenger details and get your ticket.")
-
     x, y, z = st.columns(3)
-
     with x:
         st.subheader("🔎 Search")
         st.write("Find your flight.")
-
     with y:
         st.subheader("💳 Pay")
         st.write("Choose a payment method.")
-
     with z:
         st.subheader("🎫 Ticket")
         st.write("Get your booking ticket.")
-
     if st.button("🔎 Start Booking", use_container_width=True):
         st.session_state.page = "Search"
         st.rerun()
-
-# SEARCH PAGE
 elif st.session_state.page == "Search":
-
     st.header("🔎 Search Flights")
-
     x, y = st.columns(2)
-
     with x:
         from_city = st.text_input("From", placeholder="Example: Kochi")
 
