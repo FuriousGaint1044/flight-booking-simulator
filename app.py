@@ -115,8 +115,11 @@ elif st.session_state.page == "Search":
             value=1
         )
 
-    if st.button("🔎 Search Flights", use_container_width=True):
-
+    if st.button(
+    "🔎 Search Flights",
+    key="search_flights_submit",
+    use_container_width=True
+    ):
         if not from_city.strip() or not to_city.strip():
             st.warning("Please enter both cities.")
 
