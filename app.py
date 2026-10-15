@@ -528,7 +528,7 @@ elif st.session_state.page == "Payment":
        st.caption(
         "Do not enter real card details or banking credentials. "
         "These payment fields are only for demonstration."
-    )
+       )
 
     x, y = st.columns(2)
 
