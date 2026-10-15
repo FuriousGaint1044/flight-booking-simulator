@@ -1,4 +1,3 @@
-
 import streamlit as st
 import random
 
@@ -184,23 +183,22 @@ elif page == "Payment":
     st.write(f"Base Fare: ₹{base:,.2f}")
     st.write(f"GST (5%): ₹{gst:,.2f}")
     st.subheader(f"Total: ₹{total:,.2f}")
-    st.caption("Simulated payment only. Do not enter real banking details.")
 
     method = st.radio("Payment Method", ["Credit / Debit Card", "UPI"])
 
     if method == "Credit / Debit Card":
-        st.text_input("Demo Card Number")
+        st.text_input("Card Number")
         x, y = st.columns(2)
-        x.text_input("Demo Expiry Date")
-        y.text_input("Demo CVV", type="password")
+        x.text_input("Expiry Date")
+        y.text_input("CVV", type="password")
     else:
-        st.text_input("Demo UPI ID", placeholder="example@upi")
+        st.text_input("UPI ID", placeholder="example@upi")
 
     if st.button("← Back to Seats"):
         st.session_state.page = "Seats"
         st.rerun()
 
-    if st.button("Confirm Demo Payment"):
+    if st.button("Confirm Payment"):
         booking = {
             "id": "SB" + str(random.randint(10000, 99999)),
             "airline": f["airline"], "flight": f["number"],
