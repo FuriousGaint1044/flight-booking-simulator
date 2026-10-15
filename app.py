@@ -1,4 +1,3 @@
-
 import streamlit as st
 import random
 
@@ -501,7 +500,7 @@ elif st.session_state.page == "Payment":
 
     method = st.radio(
         "Payment Method",
-        ["Credit / Debit Card", "UPI", "Net Banking"]
+        ["Credit / Debit Card", "UPI"]
     )
 
     if method == "Credit / Debit Card":
@@ -526,20 +525,7 @@ elif st.session_state.page == "Payment":
             placeholder="example@upi"
         )
 
-    else:
-
-        st.selectbox(
-            "Bank",
-            [
-                "SBI",
-                "HDFC Bank",
-                "ICICI Bank",
-                "Axis Bank",
-                "Canara Bank"
-            ]
-        )
-
-    st.caption(
+       st.caption(
         "Do not enter real card details or banking credentials. "
         "These payment fields are only for demonstration."
     )
