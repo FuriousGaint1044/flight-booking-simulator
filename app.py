@@ -499,37 +499,31 @@ elif st.session_state.page == "Payment":
     if method == "Credit / Debit Card":
 
         st.text_input(
-            "Demo Card Number",
-            key="demo_card_number"
+            "Card Number",
+            key="card_number"
         )
 
         x, y = st.columns(2)
 
         with x:
             st.text_input(
-                "Demo Expiry Date",
-                key="demo_card_expiry"
+                "Expiry Date",
+                key="card_expiry"
             )
 
         with y:
             st.text_input(
-                "Demo CVV",
+                "CVV",
                 type="password",
-                key="demo_card_cvv"
+                key="card_cvv"
             )
 
     else:
         st.text_input(
-            "Demo UPI ID",
+            "UPI ID",
             placeholder="example@upi",
-            key="demo_upi_id"
+            key="upi_id"
         )
-
-    st.caption(
-        "This is a simulated school project payment. "
-        "Do not enter real banking or card details."
-    )
-
     x, y = st.columns(2)
 
     with x:
@@ -539,7 +533,7 @@ elif st.session_state.page == "Payment":
 
     with y:
         if st.button(
-            "Confirm Demo Payment",
+            "Confirm Payment",
             use_container_width=True
         ):
 
@@ -666,7 +660,6 @@ GST: Rs. {b['gst']:.2f}
 Total: Rs. {b['total']:.2f}
 Payment Method: {b['method']}
 
-This is a simulated school project booking.
 Thank you for choosing SkyBook!
 ================================
 """
@@ -719,7 +712,7 @@ elif st.session_state.page == "Bookings":
 
             st.write(f"💰 Total Fare: ₹{b['total']:,.2f}")
 
-            st.write("Status: Demo Confirmed")
+            st.write("Status: Confirmed")
 
             st.markdown("**👥 Passengers and Seats**")
 
