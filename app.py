@@ -470,14 +470,12 @@ elif st.session_state.page == "Payment":
 
     st.write("Airline:", f["airline"])
     st.write("Flight:", f["number"])
-
     st.write(
         "Route:",
         st.session_state.from_city,
         "→",
         st.session_state.to_city
     )
-
     st.write("Date:", st.session_state.date)
     st.write("Passengers:", len(passengers))
 
@@ -490,45 +488,47 @@ elif st.session_state.page == "Payment":
 
     st.write(f"Base Fare: ₹{base:,.2f}")
     st.write(f"GST (5%): ₹{gst:,.2f}")
-
     st.subheader(f"Total: ₹{total:,.2f}")
-
-    st.caption(
-        "Payment is simulated for this school project. "
-        "No real money will be charged."
-    )
 
     method = st.radio(
         "Payment Method",
-        ["Credit / Debit Card", "UPI"]
+        ["Credit / Debit Card", "UPI"],
+        key="payment_method"
     )
 
     if method == "Credit / Debit Card":
 
         st.text_input(
             "Demo Card Number",
-            placeholder="Enter any sample number"
+            key="demo_card_number"
         )
 
         x, y = st.columns(2)
 
         with x:
-            st.text_input("Demo Expiry Date")
+            st.text_input(
+                "Demo Expiry Date",
+                key="demo_card_expiry"
+            )
 
         with y:
-            st.text_input("Demo CVV", type="password")
+            st.text_input(
+                "Demo CVV",
+                type="password",
+                key="demo_card_cvv"
+            )
 
-    elif method == "UPI":
-
+    else:
         st.text_input(
             "Demo UPI ID",
-            placeholder="example@upi"
+            placeholder="example@upi",
+            key="demo_upi_id"
         )
 
-       st.caption(
-        "Do not enter real card details or banking credentials. "
-        "These payment fields are only for demonstration."
-       )
+    st.caption(
+        "This is a simulated school project payment. "
+        "Do not enter real banking or card details."
+    )
 
     x, y = st.columns(2)
 
@@ -538,7 +538,10 @@ elif st.session_state.page == "Payment":
             st.rerun()
 
     with y:
-        if st.button("Confirm Demo Payment", use_container_width=True):
+        if st.button(
+            "Confirm Demo Payment",
+            use_container_width=True
+        ):
 
             booking_id = "SB" + str(random.randint(10000, 99999))
 
