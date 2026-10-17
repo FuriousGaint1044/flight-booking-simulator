@@ -70,7 +70,6 @@ elif page == "Flights":
         f"{st.session_state.to_city}"
     )
     st.write("Date:", st.session_state.date)
-    st.info("Sample flights and fares for this school project.")
 
     flights = [
         ["Air India", "AI-101", "08:00 AM - 11:00 AM", "Economy", 4500],
