@@ -129,7 +129,7 @@ elif page == "Passengers":
 elif page == "Seats":
     st.header("💺 Seat Selection")
     st.write("Choose a different seat for each passenger.")
-    st.caption("Rows 1–10, seats A–F. Sample aircraft layout.")
+    st.caption("Rows 1–10, seats A–F.")
 
     seats = [
         f"{r}{letter}" for r in range(1, 11)
